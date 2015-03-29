@@ -1,0 +1,84 @@
+/* Base */
+body {
+	font: 16px / 1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #777;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+#wrapper {
+	padding: 100px 40px 100px 40px;
+	max-width: 500px;
+	margin: 0 auto;
+}
+
+#header {
+	border-bottom: 1px solid #eee;
+	margin-bottom: 40px;
+	padding-bottom: 40px;
+	text-align: center;
+	position: relative;
+}
+
+#avatar {
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	margin-bottom: 20px;
+
+	background-image: url("../img/avatar.png");
+	background-image: -webkit-image-set(
+		url("../img/avatar.png") 1x,
+		url("../img/avatar@2x.png") 2x
+	);
+	background-image: image-set(
+		url("../img/avatar.png") 1x,
+		url("../img/avatar@2x.png") 2x
+	);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+#badge {
+	position: absolute; bottom: 10px; right: 10px;
+	height: 48px; width: 48px;
+}
+
+/* Typography */
+a {
+	text-decoration:none;
+	color: #3F51B5;
+	font-weight: 400;
+}
+
+h1 {
+	font-weight: 400;
+	font-size: 20px;
+	color: #222;
+}
+
+h2 {
+	font-size: 20px;
+	font-weight: 300;
+	color: #aaa;
+	margin-top: 10px;
+}
+
+p {
+	line-height: 1.8;
+	 margin-bottom: 30px;
+	 font-size: 16px;
+}
+
+/* Responsive */
+@media screen and (max-width: 540px) {
+#wrapper { padding: 40px; }
+#header { margin-bottom: 40px; }
+a#docs { display: none; }
+}
+
+@media screen and (max-width:440px) {
+#wrapper { padding: 20px; }
+#header { margin-bottom: 20px; }
+}
