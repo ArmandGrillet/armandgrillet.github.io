@@ -1,21 +1,21 @@
 /* Base */
 body {
 	font: 16px / 1 "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color: #777;
+	color: #616161;
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 }
 
-#wrapper {
-	padding: 100px 40px 100px 40px;
-	max-width: 500px;
+header, main {
+	max-width: 444px;
 	margin: 0 auto;
 }
 
-#header {
-	border-bottom: 1px solid #eee;
-	margin-bottom: 40px;
-	padding-bottom: 40px;
+header {
+	padding-top: 44px;
+	border-bottom: 1px solid #E0E0E0;
+	margin-bottom: 22px;
+	padding-bottom: 22px;
 	text-align: center;
 	position: relative;
 }
@@ -40,45 +40,37 @@ body {
 	background-repeat: no-repeat;
 }
 
-#badge {
-	position: absolute; bottom: 10px; right: 10px;
-	height: 48px; width: 48px;
-}
-
 /* Typography */
 a {
 	text-decoration:none;
-	color: #3F51B5;
-	font-weight: 400;
+	color: #1565C0;
 }
 
 h1 {
 	font-weight: 400;
-	font-size: 20px;
-	color: #222;
+	font-size: 36px;
+	font-family: 'Nixie One', Helvetica, Arial, sans-serif;
 }
 
 h2 {
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 300;
-	color: #aaa;
+	color: #616161;
 	margin-top: 10px;
 }
 
 p {
 	line-height: 1.8;
-	 margin-bottom: 30px;
-	 font-size: 16px;
+	margin-bottom: 27px;
 }
 
 /* Responsive */
 @media screen and (max-width: 540px) {
-#wrapper { padding: 40px; }
-#header { margin-bottom: 40px; }
-a#docs { display: none; }
+	#wrapper { padding: 40px; }
+	#header { margin-bottom: 40px; }
 }
 
 @media screen and (max-width:440px) {
-#wrapper { padding: 20px; }
-#header { margin-bottom: 20px; }
+	#wrapper { padding: 20px; }
+	#header { margin-bottom: 20px; }
 }
