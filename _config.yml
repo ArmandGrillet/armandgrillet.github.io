@@ -3,7 +3,9 @@ title: Armand Grillet
 email: armand.grillet@outlook.com
 description: > # this means to ignore newlines until "baseurl:"
   Because a repository on GitHub is not telling all the stories behind a project, here is some personal articles explaining my work.
-baseurl: "/blog" # the subpath of your site, e.g. /blog
+source: blog_source
+destination: blog
+baseurl: /blog
 url: "http://armand.gr" # the base hostname & protocol for your site
 twitter_username: ArmandGrillet
 github_username:  ArmandGrillet
