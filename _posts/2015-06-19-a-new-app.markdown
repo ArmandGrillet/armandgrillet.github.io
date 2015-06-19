@@ -1,0 +1,23 @@
+---
+layout: post
+title:  "A new app"
+date:   2015-06-19 21:15:00
+categories: ios-ads
+---
+
+It's Friday, a good time to start my new app. As hundreds of developer after the WWDC session [Safari Extensibility: Content Blocking and Shared Links](https://developer.apple.com/videos/wwdc/2015/?id=511), I'm going to work on an iOS app to block ads on Safari.
+
+This application will be a challenge thus I divided it in many steps:
+
+1. Creating a back-end to download the [updated filters](https://adblockplus.org/subscriptions) and parse them in the correct JSON format.
+2. Pushing the JSON files in CloudKit through the new CloudKit JS API.
+3. Creating the iOS app, creating the subscriptions model to notify the app when the back-end publish new JSON files.
+4. Download these files, apply the filters through the extension model.
+5. Creating a good user onboarding experience and support a ton of different languages.
+6. Designing the website, the press kit and all the branding of the app.
+7. Adding personal whitelists and user preferences connected to iCloud.
+8. Creating a Mac extension linked to the iOS app.
+
+8 steps in 3 months, that's a lot. Yet I'm excited about this project thus impossible is nothing.
+
+It will be open-source and free, no bullshit. I will publish my work about it in the coming weeks, stay in tune!
