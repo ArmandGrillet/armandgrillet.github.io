@@ -6,6 +6,10 @@ description: > # this means to ignore newlines until "baseurl:"
 url: "http://armand.gr" # the base hostname & protocol for your site
 twitter_username: ArmandGrillet
 github_username:  ArmandGrillet
+analytics :
+  provider : google
+  google :
+      tracking_id : 'UA-43468346-1'
 
 # Build settings
 markdown: kramdown
