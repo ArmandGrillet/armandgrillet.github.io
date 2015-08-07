@@ -40,6 +40,25 @@ header {
 	background-repeat: no-repeat;
 }
 
+#adios {
+	display: inline-block;
+	width: 76px;
+	height: 76px;
+	margin-bottom: 20px;
+
+	background-image: url("../img/adios.png");
+	background-image: -webkit-image-set(
+		url("../img/adios.png") 1x,
+		url("../img/adios@2x.png") 2x
+	);
+	background-image: image-set(
+		url("../img/adios.png") 1x,
+		url("../img/adios@2x.png") 2x
+	);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
 /* Typography */
 a {
 	text-decoration:none;
