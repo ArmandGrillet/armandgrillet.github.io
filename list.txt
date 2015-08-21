@@ -1,0 +1,16 @@
+[AdiosList]
+! Checksum: tbzlwCX/R2dq9YKRkqmUzQ
+! Version: 201508210750
+! Title: AdiosListTest
+! Last modified: 21 Aug 2015 10:00 UTC
+! Expires: 4 days (update frequency)
+!
+! Please report any unblocked adverts or problems
+! in the forums (https://forums.lanik.us/)
+! or via e-mail (easylist.subscription@gmail.com).
+!
+!-----------------------General advert blocking filters-----------------------!
+! *** easylist:easylist/easylist_general_block.txt ***
+&ad_box_
+&ad_channel=
+&ad_classid=
