@@ -1,6 +1,6 @@
 [AdiosList]
-! Checksum: tbzlwCX/R2dq9YKRkqmUzQ
-! Version: 201508210750
+! Checksum: tbzlwCX/R2dfdsq9YKRkqmUzQ
+! Version: 201508vsdsvd210750
 ! Title: AdiosListTest
 ! Last modified: 21 Aug 2015 10:00 UTC
 ! Expires: 4 days (update frequency)
@@ -12,4 +12,6 @@
 !-----------------------General advert blocking filters-----------------------!
 ! *** easylist:easylist/easylist_general_block.txt ***
 &ad_box_
+&gloug
 &ad_box_yo
+&meuh
