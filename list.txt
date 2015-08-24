@@ -13,6 +13,5 @@
 ! *** easylist:easylist/easylist_general_block.txt ***
 &ad_box_0
 &adfds_box_1
-&adaezrqgf_box_2
-&adarez_box_3
 &adfdqs_box_4
+&adffsdqqdsfdqs_box_5
