@@ -12,7 +12,6 @@
 !-----------------------General advert blocking filters-----------------------!
 ! *** easylist:easylist/easylist_general_block.txt ***
 &ad_box_0
-&ad_box_1
-&ad_box_2
-&ad_box_3
-&ad_box_4
+&adfds_box_1
+&adfdqs_box_4
+&adffsdqqdsfdqs_box_5
