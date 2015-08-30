@@ -65,6 +65,10 @@ a {
 	color: #1565C0;
 }
 
+.adios a {
+	color: #e00b00;
+}
+
 h1 {
 	font-weight: 400;
 	font-size: 36px;
