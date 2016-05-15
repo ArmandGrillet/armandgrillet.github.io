@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<meta name="author" content="Armand Grillet">
+	<title>Canvaset</title>
+	<meta name="description" content="Canvaset">
+
+	<link rel="stylesheet" href="canvaset.css">
+
+	<!-- JS -->
+	<script async src="canvaset.js"></script>
+</head>
+
+<body>
+    <canvas id="dataset" width="700" height="700">
+    </canvas>
+	<div id="options">
+		<button id="download">Download as .csv</button><br /><br />
+	</div>
+	<div id="csvcontainer">
+		<table id="csv">
+			<tr><td>0.5</td><td>0.5</td><td><button class="remove" />Remove the observation</td></tr>
+		</table>
+	</div>
+	<br />
+	<div class="clearfix"></div>
+	<p id="xmax">
+		(1, 0)
+	</p>
+</body>
+</html>

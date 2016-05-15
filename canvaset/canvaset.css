@@ -1,0 +1,56 @@
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+
+    background-color: #fafafa;
+}
+
+.clearfix{
+    clear: both;
+}
+
+#dataset {
+    background-color: white;
+    cursor: crosshair;
+}
+
+#dataset, #options, #csvcontainer {
+    float: left;
+}
+
+#options {
+    margin-top: 15px;
+    padding: 0 20px 0 12px;
+    width: 140px;
+    text-align: center;
+}
+
+#csvcontainer {
+    margin-top: 10px;
+    width: 500px;
+    height: 690px;
+    overflow: scroll;
+    overflow-y: scroll;
+}
+
+#csv {
+    table-layout: fixed;
+    width: 499px;
+    border-collapse: collapse;
+    border: solid #e0e0dc;
+    border-width: 1px 0 0 1px;
+}
+
+td {
+    border: solid #e0e0dc;
+    border-width: 0 1px 1px 0;
+    padding: 6px 8px;
+    text-align: left;
+}
+
+#xmax {
+    margin-top: 2px;
+    width: 700px;
+    text-align: right;
+}
