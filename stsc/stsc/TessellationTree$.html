@@ -196,7 +196,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">createWithMaxObservations</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="maxObservations">maxObservations: <span class="extype" name="scala.Int">Int</span></span>, <span name="tileBorderWidth">tileBorderWidth: <span class="extype" name="scala.Double">Double</span></span>, <span name="cutFunction">cutFunction: (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]) ⇒ (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>) = <span class="symbol">stsc.cutUsingTileDimensions</span></span>)</span><span class="result">: <a href="TessellationTree.html" class="extype" name="stsc.TessellationTree">TessellationTree</a></span>
+        <span class="name">createWithMaxObservations</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="maxObservations">maxObservations: <span class="extype" name="scala.Int">Int</span></span>, <span name="tileBorderWidth">tileBorderWidth: <span class="extype" name="scala.Double">Double</span></span>, <span name="cutFunction">cutFunction: (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]) ⇒ (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>) = <span class="symbol"><span class="name"><a href="#cutUsingTileDimensions:(stsc.Tile,breeze.linalg.DenseMatrix[Double])=&gt;(stsc.Tile,stsc.Tile)">cutUsingTileDimensions</a></span></span></span>)</span><span class="result">: <a href="TessellationTree.html" class="extype" name="stsc.TessellationTree">TessellationTree</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#stsc.TessellationTree$@createWithMaxObservations(dataset:breeze.linalg.DenseMatrix[Double],maxObservations:Int,tileBorderWidth:Double,cutFunction:(stsc.Tile,breeze.linalg.DenseMatrix[Double])=&gt;(stsc.Tile,stsc.Tile)):stsc.TessellationTree" title="Permalink" target="_top">
@@ -214,7 +214,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">createWithTilesNumber</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="tilesNumber">tilesNumber: <span class="extype" name="scala.Int">Int</span></span>, <span name="tileBorderWidth">tileBorderWidth: <span class="extype" name="scala.Double">Double</span> = <span class="symbol">0</span></span>, <span name="cutFunction">cutFunction: (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]) ⇒ (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>) = <span class="symbol">stsc.cutUsingTileDimensions</span></span>)</span><span class="result">: <a href="TessellationTree.html" class="extype" name="stsc.TessellationTree">TessellationTree</a></span>
+        <span class="name">createWithTilesNumber</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="tilesNumber">tilesNumber: <span class="extype" name="scala.Int">Int</span></span>, <span name="tileBorderWidth">tileBorderWidth: <span class="extype" name="scala.Double">Double</span> = <span class="symbol">0</span></span>, <span name="cutFunction">cutFunction: (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]) ⇒ (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>) = <span class="symbol"><span class="name"><a href="#cutUsingTileDimensions:(stsc.Tile,breeze.linalg.DenseMatrix[Double])=&gt;(stsc.Tile,stsc.Tile)">cutUsingTileDimensions</a></span></span></span>)</span><span class="result">: <a href="TessellationTree.html" class="extype" name="stsc.TessellationTree">TessellationTree</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#stsc.TessellationTree$@createWithTilesNumber(dataset:breeze.linalg.DenseMatrix[Double],tilesNumber:Int,tileBorderWidth:Double,cutFunction:(stsc.Tile,breeze.linalg.DenseMatrix[Double])=&gt;(stsc.Tile,stsc.Tile)):stsc.TessellationTree" title="Permalink" target="_top">
@@ -223,6 +223,42 @@
     </span>
       <p class="shortcomment cmt">Initialize a tessellation tree with a given maximum number of tiles in the tessellation tree.</p><div class="fullcomment"><div class="comment cmt"><p>Initialize a tessellation tree with a given maximum number of tiles in the tessellation tree.
 </p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>the dataset to use to create the tessellation tree.</p></dd><dt class="param">tilesNumber</dt><dd class="cmt"><p>the number of tiles in the tessellation tree.</p></dd><dt class="param">tileBorderWidth</dt><dd class="cmt"><p>the border width of the tiles in the tessellation tree.</p></dd><dt class="param">cutFunction</dt><dd class="cmt"><p>the function used to cut a tile in two. The default is to cut the tiles using the parent tile dimensions.</p></dd><dt>returns</dt><dd class="cmt"><p>the tessellation tree.</p></dd></dl></div>
+    </li><li name="stsc.TessellationTree#cutUsingContentDimensions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="cutUsingContentDimensions:(stsc.Tile,breeze.linalg.DenseMatrix[Double])=&gt;(stsc.Tile,stsc.Tile)"></a>
+      <a id="cutUsingContentDimensions:(Tile,DenseMatrix[Double])⇒(Tile,Tile)"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">cutUsingContentDimensions</span><span class="result">: (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]) ⇒ (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#stsc.TessellationTree$@cutUsingContentDimensions:(stsc.Tile,breeze.linalg.DenseMatrix[Double])=&gt;(stsc.Tile,stsc.Tile)" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Cut a tile in two depending on the observations in a tile, returns two new tiles.</p>
+    </li><li name="stsc.TessellationTree#cutUsingTileDimensions" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="cutUsingTileDimensions:(stsc.Tile,breeze.linalg.DenseMatrix[Double])=&gt;(stsc.Tile,stsc.Tile)"></a>
+      <a id="cutUsingTileDimensions:(Tile,DenseMatrix[Double])⇒(Tile,Tile)"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">cutUsingTileDimensions</span><span class="result">: (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]) ⇒ (<a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>, <a href="Tile.html" class="extype" name="stsc.Tile">Tile</a>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#stsc.TessellationTree$@cutUsingTileDimensions:(stsc.Tile,breeze.linalg.DenseMatrix[Double])=&gt;(stsc.Tile,stsc.Tile)" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Cut a tile in two depending on its dimensions, returns two new tiles.</p><div class="fullcomment"><div class="comment cmt"><p>Cut a tile in two depending on its dimensions, returns two new tiles.</p><p>If the tile is in two dimensions and the distance between maxs(0) and mins(0) is bigger than
+maxs(1) and mins(1) the cut direction will be 0 as we need to cut in the first dimension (0).
+</p></div></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
