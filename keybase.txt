@@ -1,0 +1,55 @@
+==================================================================
+https://keybase.io/armandgrillet
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://armand.gr
+  * I am armandgrillet (https://keybase.io/armandgrillet) on keybase.
+  * I have a public key ASBqP589mX7fOzwAHxhOyTUHYB2Zgd7y4O_hJt_dn7NA4Ao
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01206a3f9f3d997edf3b3c001f184ec93507601d9981def2e0efe126dfdd9fb340e00a",
+      "host": "keybase.io",
+      "kid": "01206a3f9f3d997edf3b3c001f184ec93507601d9981def2e0efe126dfdd9fb340e00a",
+      "uid": "5231115133ecd66bd38e62e1558fea19",
+      "username": "armandgrillet"
+    },
+    "merkle_root": {
+      "ctime": 1519771608,
+      "hash": "a409813edc7ffeb57d505fb68c36332ebebd56b41fa2afa3decc29401aa2fab5ba0813684ecb7eb0eeaca80cfe27cf1606aee90704540df6d36dc639b21c9417",
+      "hash_meta": "70e725a1163dae41a7b488067218aebcfa879701f6b8968122e6f6f2e59fe819",
+      "seqno": 2163383
+    },
+    "service": {
+      "hostname": "armand.gr",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "1.0.44"
+  },
+  "ctime": 1519771654,
+  "expire_in": 504576000,
+  "prev": "6827da1dc47b37d79ae1ed996fe727763e652996e794c028cf1e4ad93b559dab",
+  "seqno": 18,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgaj+fPZl+3zs8AB8YTsk1B2AdmYHe8uDv4Sbf3Z+zQOAKp3BheWxvYWTFA0d7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwNmEzZjlmM2Q5OTdlZGYzYjNjMDAxZjE4NGVjOTM1MDc2MDFkOTk4MWRlZjJlMGVmZTEyNmRmZGQ5ZmIzNDBlMDBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwNmEzZjlmM2Q5OTdlZGYzYjNjMDAxZjE4NGVjOTM1MDc2MDFkOTk4MWRlZjJlMGVmZTEyNmRmZGQ5ZmIzNDBlMDBhIiwidWlkIjoiNTIzMTExNTEzM2VjZDY2YmQzOGU2MmUxNTU4ZmVhMTkiLCJ1c2VybmFtZSI6ImFybWFuZGdyaWxsZXQifSwibWVya2xlX3Jvb3QiOnsiY3RpbWUiOjE1MTk3NzE2MDgsImhhc2giOiJhNDA5ODEzZWRjN2ZmZWI1N2Q1MDVmYjY4YzM2MzMyZWJlYmQ1NmI0MWZhMmFmYTNkZWNjMjk0MDFhYTJmYWI1YmEwODEzNjg0ZWNiN2ViMGVlYWNhODBjZmUyN2NmMTYwNmFlZTkwNzA0NTQwZGY2ZDM2ZGM2MzliMjFjOTQxNyIsImhhc2hfbWV0YSI6IjcwZTcyNWExMTYzZGFlNDFhN2I0ODgwNjcyMThhZWJjZmE4Nzk3MDFmNmI4OTY4MTIyZTZmNmYyZTU5ZmU4MTkiLCJzZXFubyI6MjE2MzM4M30sInNlcnZpY2UiOnsiaG9zdG5hbWUiOiJhcm1hbmQuZ3IiLCJwcm90b2NvbCI6Imh0dHBzOiJ9LCJ0eXBlIjoid2ViX3NlcnZpY2VfYmluZGluZyIsInZlcnNpb24iOjF9LCJjbGllbnQiOnsibmFtZSI6ImtleWJhc2UuaW8gZ28gY2xpZW50IiwidmVyc2lvbiI6IjEuMC40NCJ9LCJjdGltZSI6MTUxOTc3MTY1NCwiZXhwaXJlX2luIjo1MDQ1NzYwMDAsInByZXYiOiI2ODI3ZGExZGM0N2IzN2Q3OWFlMWVkOTk2ZmU3Mjc3NjNlNjUyOTk2ZTc5NGMwMjhjZjFlNGFkOTNiNTU5ZGFiIiwic2Vxbm8iOjE4LCJ0YWciOiJzaWduYXR1cmUifaNzaWfEQDLOjeimc1nVlzRKJouggzkeYM3xTIzfQ9dVyPO1uJa52dNFFHNcn3sh8vDNQb92+Qh+Lzhp27PcfvFNPovMiAqoc2lnX3R5cGUgpGhhc2iCpHR5cGUIpXZhbHVlxCA0vltoj07hDGrepRCVd1K9gtsrVnYqhewFR5zO8o/XeaN0YWfNAgKndmVyc2lvbgE=
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/armandgrillet
+
+==================================================================
