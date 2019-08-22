@@ -1,0 +1,4 @@
+baseURL = "https://armand.gr/blog"
+languageCode = "en-us"
+title = "Armand Grillet"
+theme = "contrast"

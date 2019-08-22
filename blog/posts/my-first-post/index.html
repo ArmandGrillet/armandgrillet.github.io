@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Pico 8: Snake | Armand Grillet</title>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="https://armand.gr/blog/img/favicon.ico">
+<meta name="generator" content="Hugo 0.56.3" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://armand.gr/blog/posts/my-first-post/">
+<link rel="alternate" type="application/rss+xml" href="" title="Armand Grillet">
+<link rel="stylesheet" href="https://armand.gr/blog/css/base.css">
+<link href="https://fonts.googleapis.com/css?family=Domine" rel="stylesheet">
+<header>
+  <h2><a id="title" href="https://armand.gr/blog">Armand Grillet</a></h2>
+  <nav>
+    <a href="https://armand.gr">&#8594; whoami</a>
+  </nav>
+</header>
+
+<article>
+  <header>
+    <h1><a href="https://armand.gr/blog/posts/my-first-post/">Pico 8: Snake</a></h1>
+    <p class="meta"><time datetime="2019-08-09T10:28:46&#43;02:00">August 09, 2019</time></p>
+  </header>
+  
+
+<p><a href="https://www.lexaloffle.com/pico-8.php">Pico 8</a> is a fantasy console allowing you to create and share games easily (<a href="https://www.youtube.com/watch?v=K5RXMuH54iw&amp;t">this video is a great trailer</a>).</p>
+
+<p>I have not developed many video games as a student thus I wanted to start with something small to try Pico 8. Snake is a relatively simple game in its mechanics:</p>
+
+<ul>
+<li>The user (i.e. the snake) is limited to a map that fits in one screen.</li>
+<li>The user only can go up/down/right/left.</li>
+<li>The user tries to get a randomly placed item without touching the borders of the map nor its body.</li>
+<li>When touching the item, the snake length and the score increase by 1.</li>
+<li>The user moves like a snake, its entire body does not change direction when moving but only the head of the snake.</li>
+</ul>
+
+<p>With only 5 constraints, we have defined the game. Let&rsquo;s see how this is gonna look (if you use an AZERTY keyboard, you have to press N to play again):</p>
+
+<p align="center">
+    <iframe src="https://www.lexaloffle.com/bbs/widget.php?pid=snake-1" allowfullscreen width="621" height="513" style="border:none; overflow:hidden"></iframe>
+</p>
+
+<p>The design is rough, the map is too big, but it works. You can access the entire game&rsquo;s code by opening it on <a href="https://www.lexaloffle.com/bbs/cart_info.php?cid=snake-1">lexaloffle.com</a> and clicking on <code>Code</code>. I have commented most of the code so that it&rsquo;s easy to follow what&rsquo;s happening.</p>
+
+<p>I faced some interesting discoveries and challenges while developing the game, those were the main ones:</p>
+
+<h1 id="pico-s-model-view-controller-architectural-pattern">Pico&rsquo;s Model–View–Controller architectural pattern</h1>
+
+<p>I&rsquo;m not a game developer but starting a game on Pico 8 looks familiar:</p>
+
+<pre><code>function _init()
+end
+
+function _update()
+end
+
+function _draw()
+end
+</code></pre>
+
+<p>You initialize a model (e.g. a score) in <code>_init()</code>, you check and update the status of the game in <code>_update()</code>, you draw everything in <code>_draw()</code>. A model, a controller, and a view. Pico 8 defines <a href="https://www.lexaloffle.com/pico-8.php?page=manual">a few functions</a> allowing you to have to have a first draft with just the borders and the score very easily:</p>
+
+<pre><code>function _init()
+	-- the borders, pico's screen is 128*128
+	x_min=1
+	y_min=13
+	x_max=126
+	y_max=126
+
+    score = 0
+end
+
+function _update()
+end
+
+function draw()
+	cls()
+
+	-- print map and score
+	color(7)
+	line(x_min, y_min, x_max, y_min)
+	line(x_min, y_max, x_max, y_max)
+	line(x_min, y_min, x_min, y_max)
+	line(x_max, y_min, x_max, y_max)
+
+	print(&quot;score:&quot;, x_min, 5)
+	print(score, 25, 5)
+end
+</code></pre>
+
+<h1 id="moving-a-snake">Moving a snake</h1>
+
+<p>One of the challenges of Snake is that the snake&rsquo;s body does not move all at once. When you press up while going right, the head of the snake will start going up but the rest of the body will keep going right until it reaches the position where you asked the body to go up.</p>
+
+<p>I have thus decided to represent each part of the snake&rsquo;s body as an integer in an array. For example, if you have a snake made of 3 body parts (a head <code>&gt;</code>, a body <code>=</code>, and a tail <code>~</code>) all going to the right (<code>~=&gt;</code>), its representation as an array will be <code>{1, 1, 1}</code>. If the snake is all going left, <code>&lt;=~</code>, its representation as an array will be <code>{0, 0, 0}</code>.</p>
+
+<p>This allows me to not have to keep the position of each body element but to compute it a runtime by only having the position of the head and then computing the rest of the body depending on which each body part is currently going. I honestly don&rsquo;t know if it&rsquo;s more optimized than keeping the position of each part as a set of coordinates but it was more fun to handle.</p>
+
+<p>Let&rsquo;s see the controller to have a snake that &ldquo;moves&rdquo;:</p>
+
+<pre><code>function _update()
+	if (btnp(0) or btnp(1) or btnp(2) or btnp(3)) then
+		if (btnp(0)and snake[#snake]!=1) then
+			add(snake, 0)
+		elseif (btnp(1) and snake[#snake]!=0) then
+			add(snake, 1)
+		elseif (btnp(2) and snake[#snake]!=3) then
+			add(snake, 2)
+		elseif (btnp(3) and snake[#snake]!=2) then
+			add(snake, 3)
+		else
+			add(snake, snake[#snake])
+		end
+    end
+    del(snake, snake[1])
+end
+</code></pre>
+
+<p><code>btnp()</code> allows you to know if a button has been pressed, the values <code>0</code>, <code>1</code>, <code>2</code>, and <code>3</code> representing the arrow keys. With this mechanism in my controller I am able to update the position of the snake by adding an alement at the end of the array (the new position of the head) and deleting the first element of the array (the old position of the tail). The <code>if</code> conditions are here to make sure that I cannot directly go in the opposite direction.</p>
+
+<p>The good thing with this logic is that is scales well when the snake grows: if the snake has to grow in the frame I just have to not do the <code>del(snake, snake[1])</code> by adding a condition around the line checking for a certain status (check the final code to see how it works). The array will then be one item bigger thus the snake too.</p>
+
+<p>To print the snake (with each body part being 4px * 4px), we need to know what are the coordinates of its head <code>head_x</code> and <code>head_y</code> and have the positions in an array <code>snake</code>, we can then do:</p>
+
+<pre><code>x = head_x
+y = head_y
+
+-- the tongue
+if (snake[#snake]==0) rectfill(x-3, y-1, x-4, y, 8)
+if (snake[#snake]==1) rectfill(x+2, y-1, x+3, y, 8)
+if (snake[#snake]==2) rectfill(x-1, y-4, x, y-3, 8)
+if (snake[#snake]==3) rectfill(x-1, y+2, x, y+3, 8)
+
+-- the body
+for i=(#snake),1,-1 do
+    rectfill(x-2, y-2, x+1, y+1, 3)
+    if (snake[i]==0) x+=4
+    if (snake[i]==1) x-=4
+    if (snake[i]==2) y+=4
+    if (snake[i]==3) y-=4
+end
+</code></pre>
+
+<h1 id="too-fast-too-furious">Too fast, too furious</h1>
+
+<p>The snake was moving too fast when updating its position each frame (thus 30 times per second). To lower the speed of the snake, I had to lower how often the game was updated. To do this without making the game unresponsive to user input, I have adopted this strategy:</p>
+
+<pre><code>function _init()
+    speed = 4
+ 	tick = 1
+end
+
+function _update()
+	-- refresh frame or action from the player
+	if (tick==speed or btnp(0) or btnp(1) or btnp(2) or btnp(3)) then
+        -- do things in the controller
+        draw()
+        tick=1
+	else
+		tick+=1
+	end
+end
+
+function draw()
+    -- do things
+end
+</code></pre>
+
+<p>I have removed the <code>_draw()</code> and manually call a function called <code>draw()</code> at the end of my controller so that I control the speed of the game. Due to the speed and the tick I am now running the controller only once every 4 frames except if the player presses an input. That way the snake goes slower while still being responsive when the user wants to change its position.</p>
+
+<p>Small detail: by using <code>btnp()</code> instead of <code>btn()</code> in the controller, I don&rsquo;t make it possible to make the game faster by keeping a finger on one specific arrow of the keyboard.</p>
+
+<h1 id="random-flower-creation">Random flower creation</h1>
+
+<p>The flower is the item that the snake needs to hit in order to grow. I faced two challenges while adding this to the game as the flower is a sprite, not an object drawn in <code>draw()</code>, and that its position should be random but not too much as it shouldn&rsquo;t be where the snake is. To do this, I generate the flower&rsquo;s coordinates in a function called <code>random_flower(snake_x, snake_y)</code>.</p>
+
+<pre><code>-- set the coordinate of the flower so that it
+-- is random and does not touch the snake
+function random_flower(snake_x, snake_y)
+	-- the values are chosen so that the flower stays in the map
+	flower_x=flr(rnd(120))
+	flower_x=flower_x-(flower_x%4)
+	flower_y=flr(rnd(109)) + 12
+	flower_y=flower_y-(flower_y%4)
+
+	for i, x in pairs(snake_x) do
+		-- the '-4' are due to the size of the sprite
+		if ((x-4)==flower_x and (snake_y[i]-4)==flower_y) then
+			-- I hit the snake thus I have to get another flower
+			random_flower(snake_x, snake_y)
+		end
+	end
+end
+</code></pre>
+
+<p><code>snake_x</code> and <code>snake_y</code> are two arrays representing the current Xs and Ys of the snake. This is not great as I do not need that to represent the snake when drawing it but it makes it easier to check if the generated flower is hitting a snake or not. In that case, we call the function again to generate a new position for the flower. Regarding the random position of the flower, we have to deal with the fact that the snake is 4 pixels thick using <code>-(flower_x%4)</code>.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>Making a video game on Pico 8 in a few hours was quite exhilirating! It is easy to start and the programming challenges faced are different compared to the ones I face at work. This article does not cover the entirety of the game, check the <a href="https://www.lexaloffle.com/bbs/cart_info.php?cid=snake-1">code</a> to see how I&rsquo;ve done things like the RIP screen or the hitboxes handling. If you have any questions, just ping me on Twitter.</p>
+
+<p><a href="https://twitter.com/ArmandGrillet">@ArmandGrillet</a></p>
+
+</article>
+
+
+
+</html>
