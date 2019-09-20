@@ -13,13 +13,13 @@
     
     <item>
       <title>Pico 8: Snake</title>
-      <link>https://armand.gr/blog/posts/my-first-post/</link>
+      <link>https://armand.gr/blog/posts/pico-8-snake/</link>
       <pubDate>Fri, 09 Aug 2019 10:28:46 +0200</pubDate>
       
-      <guid>https://armand.gr/blog/posts/my-first-post/</guid>
+      <guid>https://armand.gr/blog/posts/pico-8-snake/</guid>
       <description>Pico 8 is a fantasy console allowing you to create and share games easily (this video is a great trailer).
 I have not developed many video games as a student thus I wanted to start with something small to try Pico 8. Snake is a relatively simple game in its mechanics:
- The user (i.e. the snake) is limited to a map that fits in one screen. The user only can go up/down/right/left.</description>
+ The user (i.e. the snake) is limited to a map that fits in one screen. The user can only go up/down/right/left.</description>
     </item>
     
   </channel>

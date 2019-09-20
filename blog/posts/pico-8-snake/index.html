@@ -3,9 +3,9 @@
 <title>Pico 8: Snake | Armand Grillet</title>
 <meta charset="utf-8">
 <link rel="shortcut icon" href="https://armand.gr/blog/img/favicon.ico">
-<meta name="generator" content="Hugo 0.56.3" />
+<meta name="generator" content="Hugo 0.58.2" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="canonical" href="https://armand.gr/blog/posts/my-first-post/">
+<link rel="canonical" href="https://armand.gr/blog/posts/pico-8-snake/">
 <link rel="alternate" type="application/rss+xml" href="" title="Armand Grillet">
 <link rel="stylesheet" href="https://armand.gr/blog/css/base.css">
 <link href="https://fonts.googleapis.com/css?family=Domine" rel="stylesheet">
@@ -18,7 +18,7 @@
 
 <article>
   <header>
-    <h1><a href="https://armand.gr/blog/posts/my-first-post/">Pico 8: Snake</a></h1>
+    <h1><a href="https://armand.gr/blog/posts/pico-8-snake/">Pico 8: Snake</a></h1>
     <p class="meta"><time datetime="2019-08-09T10:28:46&#43;02:00">August 09, 2019</time></p>
   </header>
   
@@ -29,7 +29,7 @@
 
 <ul>
 <li>The user (i.e. the snake) is limited to a map that fits in one screen.</li>
-<li>The user only can go up/down/right/left.</li>
+<li>The user can only go up/down/right/left.</li>
 <li>The user tries to get a randomly placed item without touching the borders of the map nor its body.</li>
 <li>When touching the item, the snake length and the score increase by 1.</li>
 <li>The user moves like a snake, its entire body does not change direction when moving but only the head of the snake.</li>
@@ -59,7 +59,7 @@ function _draw()
 end
 </code></pre>
 
-<p>You initialize a model (e.g. a score) in <code>_init()</code>, you check and update the status of the game in <code>_update()</code>, you draw everything in <code>_draw()</code>. A model, a controller, and a view. Pico 8 defines <a href="https://www.lexaloffle.com/pico-8.php?page=manual">a few functions</a> allowing you to have to have a first draft with just the borders and the score very easily:</p>
+<p>You initialize a model (e.g. a score) in <code>_init()</code>, you check and update the status of the game in <code>_update()</code>, you draw everything in <code>_draw()</code>. A model, a controller, and a view. Pico 8 defines <a href="https://www.lexaloffle.com/pico-8.php?page=manual">a few functions</a> allowing you to have a first draft with just the borders and the score very easily:</p>
 
 <pre><code>function _init()
 	-- the borders, pico's screen is 128*128
@@ -95,7 +95,7 @@ end
 
 <p>I have thus decided to represent each part of the snake&rsquo;s body as an integer in an array. For example, if you have a snake made of 3 body parts (a head <code>&gt;</code>, a body <code>=</code>, and a tail <code>~</code>) all going to the right (<code>~=&gt;</code>), its representation as an array will be <code>{1, 1, 1}</code>. If the snake is all going left, <code>&lt;=~</code>, its representation as an array will be <code>{0, 0, 0}</code>.</p>
 
-<p>This allows me to not have to keep the position of each body element but to compute it a runtime by only having the position of the head and then computing the rest of the body depending on which each body part is currently going. I honestly don&rsquo;t know if it&rsquo;s more optimized than keeping the position of each part as a set of coordinates but it was more fun to handle.</p>
+<p>This allows to not have to keep the position of each body element but to compute it at runtime by only having the position of the head and then computing the rest of the body depending on where each body part is currently going.</p>
 
 <p>Let&rsquo;s see the controller to have a snake that &ldquo;moves&rdquo;:</p>
 
@@ -117,9 +117,9 @@ end
 end
 </code></pre>
 
-<p><code>btnp()</code> allows you to know if a button has been pressed, the values <code>0</code>, <code>1</code>, <code>2</code>, and <code>3</code> representing the arrow keys. With this mechanism in my controller I am able to update the position of the snake by adding an alement at the end of the array (the new position of the head) and deleting the first element of the array (the old position of the tail). The <code>if</code> conditions are here to make sure that I cannot directly go in the opposite direction.</p>
+<p><code>btnp()</code> allows you to know if a button has been pressed, the values <code>0</code>, <code>1</code>, <code>2</code>, and <code>3</code> representing the arrow keys. With this mechanism in my controller I am able to update the position of the snake by adding an element at the end of the array (the new position of the head) and deleting the first element of the array (the old position of the tail). The <code>if</code> conditions are here to make sure that I cannot directly go in the opposite direction.</p>
 
-<p>The good thing with this logic is that is scales well when the snake grows: if the snake has to grow in the frame I just have to not do the <code>del(snake, snake[1])</code> by adding a condition around the line checking for a certain status (check the final code to see how it works). The array will then be one item bigger thus the snake too.</p>
+<p>The good thing with this logic is that it scales well when the snake grows: if the snake has to grow in the frame I just have to not do the <code>del(snake, snake[1])</code> by adding a condition around the line checking for a certain status (check the final code to see how it works). The array will then be one item bigger thus the snake too.</p>
 
 <p>To print the snake (with each body part being 4px * 4px), we need to know what are the coordinates of its head <code>head_x</code> and <code>head_y</code> and have the positions in an array <code>snake</code>, we can then do:</p>
 

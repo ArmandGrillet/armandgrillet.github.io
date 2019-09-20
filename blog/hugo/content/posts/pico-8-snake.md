@@ -9,7 +9,7 @@ draft: false
 I have not developed many video games as a student thus I wanted to start with something small to try Pico 8. Snake is a relatively simple game in its mechanics:
 
 - The user (i.e. the snake) is limited to a map that fits in one screen.
-- The user only can go up/down/right/left.
+- The user can only go up/down/right/left.
 - The user tries to get a randomly placed item without touching the borders of the map nor its body.
 - When touching the item, the snake length and the score increase by 1.
 - The user moves like a snake, its entire body does not change direction when moving but only the head of the snake.
@@ -39,7 +39,7 @@ function _draw()
 end
 ```
 
-You initialize a model (e.g. a score) in `_init()`, you check and update the status of the game in `_update()`, you draw everything in `_draw()`. A model, a controller, and a view. Pico 8 defines [a few functions](https://www.lexaloffle.com/pico-8.php?page=manual) allowing you to have to have a first draft with just the borders and the score very easily:
+You initialize a model (e.g. a score) in `_init()`, you check and update the status of the game in `_update()`, you draw everything in `_draw()`. A model, a controller, and a view. Pico 8 defines [a few functions](https://www.lexaloffle.com/pico-8.php?page=manual) allowing you to have a first draft with just the borders and the score very easily:
 
 ```
 function _init()
@@ -76,7 +76,7 @@ One of the challenges of Snake is that the snake's body does not move all at onc
 
 I have thus decided to represent each part of the snake's body as an integer in an array. For example, if you have a snake made of 3 body parts (a head `>`, a body `=`, and a tail `~`) all going to the right (`~=>`), its representation as an array will be `{1, 1, 1}`. If the snake is all going left, `<=~`, its representation as an array will be `{0, 0, 0}`.
 
-This allows me to not have to keep the position of each body element but to compute it a runtime by only having the position of the head and then computing the rest of the body depending on which each body part is currently going. I honestly don't know if it's more optimized than keeping the position of each part as a set of coordinates but it was more fun to handle.
+This allows to not have to keep the position of each body element but to compute it at runtime by only having the position of the head and then computing the rest of the body depending on where each body part is currently going.
 
 Let's see the controller to have a snake that "moves":
 
@@ -99,9 +99,9 @@ function _update()
 end
 ```
 
-`btnp()` allows you to know if a button has been pressed, the values `0`, `1`, `2`, and `3` representing the arrow keys. With this mechanism in my controller I am able to update the position of the snake by adding an alement at the end of the array (the new position of the head) and deleting the first element of the array (the old position of the tail). The `if` conditions are here to make sure that I cannot directly go in the opposite direction.
+`btnp()` allows you to know if a button has been pressed, the values `0`, `1`, `2`, and `3` representing the arrow keys. With this mechanism in my controller I am able to update the position of the snake by adding an element at the end of the array (the new position of the head) and deleting the first element of the array (the old position of the tail). The `if` conditions are here to make sure that I cannot directly go in the opposite direction.
 
-The good thing with this logic is that is scales well when the snake grows: if the snake has to grow in the frame I just have to not do the `del(snake, snake[1])` by adding a condition around the line checking for a certain status (check the final code to see how it works). The array will then be one item bigger thus the snake too.
+The good thing with this logic is that it scales well when the snake grows: if the snake has to grow in the frame I just have to not do the `del(snake, snake[1])` by adding a condition around the line checking for a certain status (check the final code to see how it works). The array will then be one item bigger thus the snake too.
 
 To print the snake (with each body part being 4px * 4px), we need to know what are the coordinates of its head `head_x` and `head_y` and have the positions in an array `snake`, we can then do:
 
