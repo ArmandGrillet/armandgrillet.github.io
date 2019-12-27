@@ -68,10 +68,22 @@ p:last-child {
 }
 
 i {
-    font-style: italic;
+	font-style: italic;
 }
 
 /* Responsive */
 @media screen and (max-width: 540px) {
 	header, main { padding: 20px; }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #333333;
+		color: #fff;
+	}
+
+	a {
+		color: #6acafe;
+	}
 }
