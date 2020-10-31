@@ -79,7 +79,7 @@ i {
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
 	body {
-		background-color: #333333;
+		background-color: #35363a;
 		color: #fff;
 	}
 

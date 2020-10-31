@@ -28,7 +28,7 @@ I faced some interesting discoveries and challenges while developing the game, t
 
 I'm not a game developer but starting a game on Pico 8 looks familiar:
 
-```
+```lua
 function _init()
 end
 
@@ -41,7 +41,7 @@ end
 
 You initialize a model (e.g. a score) in `_init()`, you check and update the status of the game in `_update()`, you draw everything in `_draw()`. A model, a controller, and a view. Pico 8 defines [a few functions](https://www.lexaloffle.com/pico-8.php?page=manual) allowing you to have a first draft with just the borders and the score very easily:
 
-```
+```lua
 function _init()
 	-- the borders, pico's screen is 128*128
 	x_min=1
@@ -80,7 +80,7 @@ This allows to not have to keep the position of each body element but to compute
 
 Let's see the controller to have a snake that "moves":
 
-```
+```lua
 function _update()
 	if (btnp(0) or btnp(1) or btnp(2) or btnp(3)) then
 		if (btnp(0)and snake[#snake]!=1) then
@@ -105,7 +105,7 @@ The good thing with this logic is that it scales well when the snake grows: if t
 
 To print the snake (with each body part being 4px * 4px), we need to know what are the coordinates of its head `head_x` and `head_y` and have the positions in an array `snake`, we can then do:
 
-```
+```lua
 x = head_x
 y = head_y
 
@@ -129,7 +129,7 @@ end
 
 The snake was moving too fast when updating its position each frame (thus 30 times per second). To lower the speed of the snake, I had to lower how often the game was updated. To do this without making the game unresponsive to user input, I have adopted this strategy:
 
-```
+```lua
 function _init()
     speed = 4
  	tick = 1
@@ -159,7 +159,7 @@ Small detail: by using `btnp()` instead of `btn()` in the controller, I don't ma
 
 The flower is the item that the snake needs to hit in order to grow. I faced two challenges while adding this to the game as the flower is a sprite, not an object drawn in `draw()`, and that its position should be random but not too much as it shouldn't be where the snake is. To do this, I generate the flower's coordinates in a function called `random_flower(snake_x, snake_y)`.
 
-```
+```lua
 -- set the coordinate of the flower so that it
 -- is random and does not touch the snake
 function random_flower(snake_x, snake_y)
