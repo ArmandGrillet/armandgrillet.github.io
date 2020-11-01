@@ -6,7 +6,18 @@
     <description>Recent content on Armand Grillet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 09 Aug 2019 10:28:46 +0200</lastBuildDate><atom:link href="https://armand.gr/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 01 Nov 2020 10:28:46 +0200</lastBuildDate><atom:link href="https://armand.gr/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Enforce HTTPS on GitHub Pages with a Gandi domain name for free</title>
+      <link>https://armand.gr/blog/posts/ghpages-gandi-cloudflare/</link>
+      <pubDate>Sun, 01 Nov 2020 10:28:46 +0200</pubDate>
+      
+      <guid>https://armand.gr/blog/posts/ghpages-gandi-cloudflare/</guid>
+      <description>My personal website was still accessible using HTTP until recently and, even if it doesn&amp;rsquo;t matter much for such a website, I wanted to change that.
+My domain is on Gandi, which doesn&amp;rsquo;t offer free SSL certificates for existing domain names. The solution I&amp;rsquo;ve found to enforce HTTPS is to use CloudFlare, here is a tutorial about how to configure this.
+Initial setup  A GitHub Pages project. In this case, https://github.</description>
+    </item>
+    
     <item>
       <title>Pico 8: Snake</title>
       <link>https://armand.gr/blog/posts/pico-8-snake/</link>
