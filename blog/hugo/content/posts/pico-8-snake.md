@@ -1,5 +1,6 @@
 ---
 title: "Pico 8: Snake"
+summary: "Discover Pico 8 by developing a simple game."
 date: 2019-08-09T10:28:46+02:00
 draft: false
 ---

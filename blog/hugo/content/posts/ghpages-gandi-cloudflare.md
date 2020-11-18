@@ -1,5 +1,6 @@
 ---
-title: "Enforce HTTPS on GitHub Pages with a Gandi domain name for free"
+title: "Enforce HTTPS on GitHub Pages with a Gandi domain name, for free"
+summary: "A clear tutorial for a common but badly documented configuration."
 date: 2020-11-01T10:28:46+02:00
 draft: false
 ---
@@ -8,13 +9,13 @@ My personal website was still accessible using HTTP until recently and, even if 
 
 My domain is on Gandi, which doesn't offer [free SSL certificates for existing domain names](https://www.gandi.net/en-US/certificates/p/free-ssl-certificates). The solution I've found to enforce HTTPS is to use CloudFlare, here is a tutorial about how to configure this.
 
-# Initial setup
+## Initial setup
 
 - A GitHub Pages project. In this case, https://github.com/armandgrillet/armandgrillet.github.io
 - A domain name bought on Gandi.
 - A Cloudflare account
 
-# Getting rid of Gandi
+## Getting rid of Gandi
 
 First, we're gonna get Gandi out of the equation.
 
@@ -26,7 +27,7 @@ Copy the provided Cloudflare nameservers and use them in Gandi: `<yourdomain.com
 
 We will not use Gandi anymore.
 
-# Setting Cloudflare to know about your Github Pages project
+## Setting Cloudflare to know about your Github Pages project
 
 GitHub has documentation about managing a custom domain: https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain
 
@@ -34,7 +35,7 @@ Follow the help and create the `CNAME` record in Cloudflare (still in the DNS ma
 
 This should be enough to have your website hosted on GitHub being displayed when accessing your domain using a web browser.
 
-# Enforcing HTTPS
+## Enforcing HTTPS
 
 The settings of your GitHub project will sadly not allow you to enforce HTTPS.
 
@@ -46,7 +47,7 @@ From there, create a rule on `<yourdomain.com>/*` where the settings are "Always
 
 This should be enough to make your website accessible via `HTTPS` and even redirect users visiting `http://<yourdomain.com>` to the HTTPS equivalent.
 
-# Updating your SSL/TLS encryption mode
+## Updating your SSL/TLS encryption mode
 
 Last but not least, you can change your SSL/TLS encryption mode on Cloudflare. Just go on the "SSL/TLS" tab and update it. Personally, I have it set up to `Full`.
 

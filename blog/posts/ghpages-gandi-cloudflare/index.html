@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<title>Enforce HTTPS on GitHub Pages with a Gandi domain name for free | Armand Grillet</title>
+<title>Enforce HTTPS on GitHub Pages with a Gandi domain name, for free | Armand Grillet</title>
 <meta charset="utf-8">
 <link rel="shortcut icon" href="https://armand.gr/blog/img/favicon.ico">
-<meta name="generator" content="Hugo 0.77.0" />
+<meta name="generator" content="Hugo 0.78.2" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="canonical" href="https://armand.gr/blog/posts/ghpages-gandi-cloudflare/">
 <link rel="alternate" type="application/rss+xml" href="" title="Armand Grillet">
 <link rel="stylesheet" href="https://armand.gr/blog/css/base.css">
 <link href="https://fonts.googleapis.com/css?family=Domine" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@0;1&display=swap" rel="stylesheet">
 <header>
   <h2><a id="title" href="https://armand.gr/blog">Armand Grillet</a></h2>
   <nav>
@@ -16,41 +17,44 @@
   </nav>
 </header>
 
+<body>
+
 <article>
   <header>
-    <h1><b><a href="https://armand.gr/blog/posts/ghpages-gandi-cloudflare/">Enforce HTTPS on GitHub Pages with a Gandi domain name for free</a></b></h1>
-    <p class="meta"><time datetime="2020-11-01T10:28:46&#43;02:00">November 01, 2020</time></p>
+    <h1><b>Enforce HTTPS on GitHub Pages with a Gandi domain name, for free</b></h1>
+    <p class="meta"><i><time datetime="01.11.2020T10:28:46&#43;02:00">November 1, 2020</time></i></p>
   </header>
   <p>My personal website was still accessible using HTTP until recently and, even if it doesn&rsquo;t matter much for such a website, I wanted to change that.</p>
 <p>My domain is on Gandi, which doesn&rsquo;t offer <a href="https://www.gandi.net/en-US/certificates/p/free-ssl-certificates">free SSL certificates for existing domain names</a>. The solution I&rsquo;ve found to enforce HTTPS is to use CloudFlare, here is a tutorial about how to configure this.</p>
-<h1 id="initial-setup">Initial setup</h1>
+<h2 id="initial-setup">Initial setup</h2>
 <ul>
 <li>A GitHub Pages project. In this case, <a href="https://github.com/armandgrillet/armandgrillet.github.io">https://github.com/armandgrillet/armandgrillet.github.io</a></li>
 <li>A domain name bought on Gandi.</li>
 <li>A Cloudflare account</li>
 </ul>
-<h1 id="getting-rid-of-gandi">Getting rid of Gandi</h1>
+<h2 id="getting-rid-of-gandi">Getting rid of Gandi</h2>
 <p>First, we&rsquo;re gonna get Gandi out of the equation.</p>
 <p>Go on Cloudflare, add a site, and then go to the &ldquo;DNS&rdquo; tab.</p>
 <p>Copy the provided Cloudflare nameservers and use them in Gandi: <code>&lt;yourdomain.com&gt;/nameservers/External domain names</code>.</p>
 <p><img src="https://armand.gr/blog/img/posts/ghpages-gandi-cloudflare/gandi.png" alt="Gandi"></p>
 <p>We will not use Gandi anymore.</p>
-<h1 id="setting-cloudflare-to-know-about-your-github-pages-project">Setting Cloudflare to know about your Github Pages project</h1>
+<h2 id="setting-cloudflare-to-know-about-your-github-pages-project">Setting Cloudflare to know about your Github Pages project</h2>
 <p>GitHub has documentation about managing a custom domain: <a href="https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain">https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain</a></p>
 <p>Follow the help and create the <code>CNAME</code> record in Cloudflare (still in the DNS management section of your site).</p>
 <p>This should be enough to have your website hosted on GitHub being displayed when accessing your domain using a web browser.</p>
-<h1 id="enforcing-https">Enforcing HTTPS</h1>
+<h2 id="enforcing-https">Enforcing HTTPS</h2>
 <p>The settings of your GitHub project will sadly not allow you to enforce HTTPS.</p>
 <p><img src="https://armand.gr/blog/img/posts/ghpages-gandi-cloudflare/github-https.png" alt="GitHub HTTPS"></p>
 <p>This is where Cloudflare becomes important. Go back to it and go to the &ldquo;Page Rules&rdquo; tab.</p>
 <p>From there, create a rule on <code>&lt;yourdomain.com&gt;/*</code> where the settings are &ldquo;Always use HTTPS&rdquo;.</p>
 <p>This should be enough to make your website accessible via <code>HTTPS</code> and even redirect users visiting <code>http://&lt;yourdomain.com&gt;</code> to the HTTPS equivalent.</p>
-<h1 id="updating-your-ssltls-encryption-mode">Updating your SSL/TLS encryption mode</h1>
+<h2 id="updating-your-ssltls-encryption-mode">Updating your SSL/TLS encryption mode</h2>
 <p>Last but not least, you can change your SSL/TLS encryption mode on Cloudflare. Just go on the &ldquo;SSL/TLS&rdquo; tab and update it. Personally, I have it set up to <code>Full</code>.</p>
 <p><a href="https://twitter.com/ArmandGrillet">@ArmandGrillet</a></p>
 
 </article>
 
 
+</body>
 
 </html>

@@ -1,9 +1,11 @@
 /* Base */
 body {
+	background-color: #fafafa;
 	color: #333333;
-	-webkit-font-smoothing: antialiased;
+	font-family: "IBM Plex Sans", sans-serif;
 	text-rendering: optimizeLegibility;
-	font-family: 'Roboto Slab', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 header, main {

@@ -8,14 +8,12 @@
     <language>en-us</language>
     <lastBuildDate>Sun, 01 Nov 2020 10:28:46 +0200</lastBuildDate><atom:link href="https://armand.gr/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Enforce HTTPS on GitHub Pages with a Gandi domain name for free</title>
+      <title>Enforce HTTPS on GitHub Pages with a Gandi domain name, for free</title>
       <link>https://armand.gr/blog/posts/ghpages-gandi-cloudflare/</link>
       <pubDate>Sun, 01 Nov 2020 10:28:46 +0200</pubDate>
       
       <guid>https://armand.gr/blog/posts/ghpages-gandi-cloudflare/</guid>
-      <description>My personal website was still accessible using HTTP until recently and, even if it doesn&amp;rsquo;t matter much for such a website, I wanted to change that.
-My domain is on Gandi, which doesn&amp;rsquo;t offer free SSL certificates for existing domain names. The solution I&amp;rsquo;ve found to enforce HTTPS is to use CloudFlare, here is a tutorial about how to configure this.
-Initial setup  A GitHub Pages project. In this case, https://github.</description>
+      <description>A clear tutorial for a common but badly documented configuration.</description>
     </item>
     
     <item>
@@ -24,9 +22,7 @@ Initial setup  A GitHub Pages project. In this case, https://github.</descriptio
       <pubDate>Fri, 09 Aug 2019 10:28:46 +0200</pubDate>
       
       <guid>https://armand.gr/blog/posts/pico-8-snake/</guid>
-      <description>Pico 8 is a fantasy console allowing you to create and share games easily (this video is a great trailer).
-I have not developed many video games as a student thus I wanted to start with something small to try Pico 8. Snake is a relatively simple game in its mechanics:
- The user (i.e. the snake) is limited to a map that fits in one screen. The user can only go up/down/right/left.</description>
+      <description>Discover Pico 8 by developing a simple game.</description>
     </item>
     
   </channel>

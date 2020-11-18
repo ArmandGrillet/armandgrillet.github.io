@@ -1,9 +1,12 @@
 body {
-  font-family: "Roboto", sans-serif;
+  background-color: #fafafa;
+  color: #333333;
+  font-family: "IBM Plex Sans", sans-serif;
   font-size: 16px;
   font-size: calc(0.8rem + 0.25vw);
   font-weight: 400;
   line-height: 1.65;
+  text-rendering: optimizeLegibility;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,7 +30,11 @@ a {
 }
 
 article a {
-  color: #68f;
+  color: #1565C0;
+}
+
+.archive a {
+  color: #333333;
 }
 
 article header a, article footer a {
@@ -41,7 +48,7 @@ hr {
 
 blockquote {
   background: #9494940f;
-  border-left: 4px solid #68f;
+  border-left: 4px solid #1565C0;
   padding: 1px 1.5em;
 }
 
