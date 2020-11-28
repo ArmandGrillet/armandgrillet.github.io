@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kubernetes on Armand Grillet</title>
+    <link>https://armand.gr/blog/tags/kubernetes/</link>
+    <description>Recent content in kubernetes on Armand Grillet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 28 Nov 2020 08:20:46 +0200</lastBuildDate><atom:link href="https://armand.gr/blog/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploying WordPress on Kubernetes with monitoring and backups</title>
+      <link>https://armand.gr/blog/posts/kubernetes-helm-wordpress/</link>
+      <pubDate>Sat, 28 Nov 2020 08:20:46 +0200</pubDate>
+      
+      <guid>https://armand.gr/blog/posts/kubernetes-helm-wordpress/</guid>
+      <description>Using Helm with sane defaults, one chart at a time.</description>
+    </item>
+    
+  </channel>
+</rss>

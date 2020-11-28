@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Deploying WordPress on Kubernetes with monitoring and backups | Armand Grillet</title>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="https://armand.gr/blog/img/favicon.ico">
+<meta name="generator" content="Hugo 0.78.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://armand.gr/blog/posts/kubernetes-helm-wordpress/">
+<link rel="alternate" type="application/rss+xml" href="" title="Armand Grillet">
+<link rel="stylesheet" href="https://armand.gr/blog/css/base.css">
+<link href="https://fonts.googleapis.com/css?family=Domine" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@0;1&display=swap" rel="stylesheet">
+<header>
+  <h2><a id="title" href="https://armand.gr/blog">Armand Grillet</a></h2>
+  <nav>
+    <a href="https://armand.gr">&#8594; whoami</a>
+  </nav>
+</header>
+
+<body>
+
+<article>
+  <header>
+    <h1><b>Deploying WordPress on Kubernetes with monitoring and backups</b></h1>
+    <p class="meta"><i><time datetime="28.11.2020T08:20:46&#43;02:00">November 28, 2020</time></i></p>
+  </header>
+  <p>This tutorial will show you how straightfoward it is, using Helm charts, to have
+a deployment of WordPress that is monitored and with backups.</p>
+<p>You only need a computer with 2 CPUs available to run this as we use Minikube.</p>
+<h2 id="local-requirements">Local requirements</h2>
+<ul>
+<li><a href="https://minikube.sigs.k8s.io/docs/start/">Minikube</a> (v1.15.0)</li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> (v1.19.4)</li>
+<li><a href="https://helm.sh/">Helm</a> (v3.3.4)</li>
+<li><a href="https://velero.io/">Velero</a> (v1.5.2)</li>
+</ul>
+<h2 id="main-deployments-on-the-cluster">Main deployments on the cluster</h2>
+<p>We will mainly use Helm to deploy applications on the cluster. We will deploy:</p>
+<ul>
+<li>Minio, to have a local object storage for backups (instead of e.g. AWS S3).</li>
+<li>Velero, for handling backups.</li>
+<li>WordPress, the solution we want to deploy.</li>
+<li>The Prometheus stack, for gathering metrics and providing graphs.</li>
+</ul>
+<h3 id="deploying-the-cluster">Deploying the cluster</h3>
+<p>Start your cluster with Minikube. At the time of writing, I used Kubernetes
+1.19.4:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">minikube start --kubernetes-version<span style="color:#f92672">=</span>v1.19.4
+</code></pre></div><p>Adding <code>--vm-driver=hyperkit</code> to this command is necessary on macOS due to
+<a href="https://github.com/kubernetes/minikube/issues/7344">Docker networking issues</a>.</p>
+<p>Minikube allocates 2 CPUs for Kubernetes by default thus we do not need to
+specify that.</p>
+<h2 id="deploying-monitoring">Deploying monitoring</h2>
+<p>We will deploy the <a href="https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack">kube-prometheus-stack</a>
+which includes Grafana to have dashboards to monitor our cluster easily.</p>
+<p>As Helm has <a href="https://github.com/helm/charts#deprecation-timeline">deprecated the <code>helm/charts</code> repository</a>,
+we add trusted repositories before installing chart archives:</p>
+<pre><code>helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack --create-namespace -n monitoring
+</code></pre><h2 id="setting-up-backups">Setting up backups</h2>
+<p>We will keep the Velero backups on-premise using a standalone Minio server
+deployment. We need some <a href="https://helm.min.io/#configuration">values</a> for the
+chart that you can save in a file named <code>minio.yaml</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">accessKey</span>: <span style="color:#ae81ff">minio</span>
+<span style="color:#f92672">secretKey</span>: <span style="color:#ae81ff">minio123</span>
+
+<span style="color:#f92672">defaultBucket</span>:
+  <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">velero</span>
+
+<span style="color:#f92672">resources</span>:
+  <span style="color:#f92672">requests</span>:
+    <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">1Gi</span>
+
+<span style="color:#f92672">service</span>:
+  <span style="color:#f92672">type</span>: <span style="color:#ae81ff">NodePort</span>
+  <span style="color:#f92672">nodePort</span>: <span style="color:#ae81ff">30002</span>
+</code></pre></div><p>This will make Minio accessible using known keys, with a default bucket ready
+for velero and a NodePort making it accessible from your machine. The resource
+request is just here to not have Minikube taking too much RAM on your machine.</p>
+<p>Install Minio after adding its repository:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm repo add minio https://helm.min.io/
+helm install minio -f minio.yaml minio/minio --create-namespace -n velero
+</code></pre></div><h3 id="accessing-minio">Accessing Minio</h3>
+<p>Get the service URL and access it using your browser:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">minikube service --url minio -n velero
+</code></pre></div><p>The login and password are <code>minio</code> and <code>minio123</code>. We don&rsquo;t need to do anything
+on the Web UI as the <code>velero</code> bucket has already been created using custom
+values provided when installing and readable in <code>helm-values/minio.yaml</code>.</p>
+<h2 id="deploying-velero-for-backups">Deploying Velero for backups</h2>
+<p>Velero will need credentials to access Minio, create a file called
+<code>minio.credentials</code> with these values:</p>
+<pre><code>[default]
+aws_access_key_id = minio
+aws_secret_access_key = minio123
+</code></pre><p>We install Velero while making it think that we are using AWS S3 (even though
+we use Minio). We use the flag <code>--use-restic</code> to backup all pod volumes without
+needing annotations (this might not be what you want to do in production) and
+we set the <code>--snapshot-location-config</code> to not face <a href="https://github.com/vmware-tanzu/velero-plugin-for-aws/issues/12">this issue</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">velero install <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --provider aws <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --use-restic <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --plugins velero/velero-plugin-for-aws:v1.0.0 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --bucket velero <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --secret-file ./minio.credentials <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --backup-location-config region<span style="color:#f92672">=</span>minio,s3ForcePathStyle<span style="color:#f92672">=</span>true,s3Url<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>minikube service --url minio -n velero<span style="color:#66d9ef">)</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --snapshot-location-config region<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;default&#34;</span>
+</code></pre></div><h3 id="deploying-wordpress">Deploying WordPress</h3>
+<p>We will create a WordPress instances in its own namespace.</p>
+<p>We need very few Helm values to have a WordPress deployment that is accessible
+from Minikube locally and monitored:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">service</span>:
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">7121</span>
+
+<span style="color:#f92672">metrics</span>:
+  <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">serviceMonitor</span>:
+    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</code></pre></div><p>Save these values in a file called <code>wordpress.yaml</code>. Many other <a href="https://github.com/helm/charts/blob/master/stable/wordpress/values.yaml">values</a>
+are available to customize your WordPress deployment.</p>
+<p>We follow <a href="https://github.com/helm/charts/tree/master/stable/wordpress#this-helm-chart-is-deprecated">the deprecation help</a>
+and use the Helm chart hosted by Bitnami instead.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install wordpress -f wordpress.yaml bitnami/wordpress --create-namespace -n wordpress
+</code></pre></div><p>The deployments take quite some time, use <code>kubectl get pods -A -w</code> to wait until
+all the pods are running:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -A
+NAMESPACE     NAME                                                        READY   STATUS    RESTARTS   AGE
+kube-system   coredns-f9fd979d6-6nzfd                                     1/1     Running   <span style="color:#ae81ff">0</span>          8m37s
+kube-system   etcd-minikube                                               1/1     Running   <span style="color:#ae81ff">0</span>          8m43s
+kube-system   kube-apiserver-minikube                                     1/1     Running   <span style="color:#ae81ff">0</span>          8m43s
+kube-system   kube-controller-manager-minikube                            1/1     Running   <span style="color:#ae81ff">0</span>          8m43s
+kube-system   kube-proxy-s4flf                                            1/1     Running   <span style="color:#ae81ff">0</span>          8m37s
+kube-system   kube-scheduler-minikube                                     1/1     Running   <span style="color:#ae81ff">0</span>          8m43s
+kube-system   storage-provisioner                                         1/1     Running   <span style="color:#ae81ff">0</span>          8m43s
+monitoring    alertmanager-kube-prometheus-stack-alertmanager-0           2/2     Running   <span style="color:#ae81ff">0</span>          7m38s
+monitoring    kube-prometheus-stack-grafana-6d9fd5f64b-j4dmw              2/2     Running   <span style="color:#ae81ff">0</span>          7m54s
+monitoring    kube-prometheus-stack-kube-state-metrics-5cf575d8f8-ghnwn   1/1     Running   <span style="color:#ae81ff">0</span>          7m54s
+monitoring    kube-prometheus-stack-operator-656797786f-475xv             1/1     Running   <span style="color:#ae81ff">0</span>          7m54s
+monitoring    kube-prometheus-stack-prometheus-node-exporter-45rkp        1/1     Running   <span style="color:#ae81ff">0</span>          7m54s
+monitoring    prometheus-kube-prometheus-stack-prometheus-0               2/2     Running   <span style="color:#ae81ff">1</span>          7m38s
+velero        minio-56bdbcb947-9tzhb                                      1/1     Running   <span style="color:#ae81ff">0</span>          6m26s
+velero        restic-2r2wj                                                1/1     Running   <span style="color:#ae81ff">0</span>          3m50s
+velero        velero-5f84bb95c-rdqmc                                      1/1     Running   <span style="color:#ae81ff">0</span>          3m50s
+wordpress     wordpress-5c7f4bc64-85p6r                                   2/2     Running   <span style="color:#ae81ff">1</span>          2m48s
+wordpress     wordpress-mariadb-0                                         1/1     Running   <span style="color:#ae81ff">0</span>          2m48s
+</code></pre></div><h3 id="accessing-wordpress">Accessing WordPress</h3>
+<p>As we use Minikube, we need a route to services deployed with type LoadBalancer
+by starting a tunnel in another tab of a shell:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">minikube tunnel
+</code></pre></div><p>Get the information needed to access the first instance of WordPress:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export SERVICE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>kubectl get svc --namespace wordpress wordpress --template <span style="color:#e6db74">&#34;{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}&#34;</span><span style="color:#66d9ef">)</span>
+echo <span style="color:#e6db74">&#34;WordPress URL: http://</span>$SERVICE_IP<span style="color:#e6db74">:7121/&#34;</span>
+echo <span style="color:#e6db74">&#34;WordPress Admin URL: http://</span>$SERVICE_IP<span style="color:#e6db74">:7121/admin&#34;</span>
+echo Username: user
+echo Password: <span style="color:#66d9ef">$(</span>kubectl get secret --namespace wordpress wordpress -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{.data.wordpress-password}&#34;</span> | base64 --decode<span style="color:#66d9ef">)</span>
+</code></pre></div><p>You can then access WordPress using the information returned.</p>
+<h2 id="testing-monitoring">Testing monitoring</h2>
+<p>Everything is set up out of the box to have basic monitoring with the Prometheus
+stack, we just need to access Grafana:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl port-forward service/kube-prometheus-stack-grafana -n monitoring 7000:80
+</code></pre></div><p>Now we can login to Grafana (login and password are <code>admin</code> and <code>prom-operator</code>)
+by browing http://127.0.0.1:7000/ locally.</p>
+<p>From there, we can access a graph showing memory and CPU metrics at the
+namespace level which is what we want with our setup (<code>Dashboards</code> =&gt; <code>Manage</code>
+=&gt; <code>General</code> =&gt; <code>Kubernetes / Compute Resources / Namespace (Pods)</code>).</p>
+<p><img src="https://armand.gr/blog/img/posts/kubernetes-helm-wordpress/grafana.png" alt="Grafana"></p>
+<p>We also have access to metrics from WordPress that we can use in custom
+dashboards.</p>
+<h2 id="testing-backups">Testing backups</h2>
+<p>Using the ids from the commands described in the section &ldquo;Accessing WordPress&rdquo;,
+access the admin interface and create a post.</p>
+<p>Once this is done, create a backup of the <code>wordpress</code> namespace using Velero:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">velero backup create wordpress --include-namespaces wordpress
+</code></pre></div><p>Uninstall WordPress using <code>helm uninstall wordpress -n wordpress</code> and confirm
+that the WordPress-related resources have been deleted using <code>kubectl</code>.</p>
+<p>Run <code>velero restore create --from-backup wordpress</code> to recover and, after seeing
+all the pods running, run <code>kubectl get svc --namespace wordpress wordpress --template &quot;{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{end}}&quot;</code>
+to get the new IP used by the WordPress deployment.</p>
+<p>Browse to <code>http://&lt;wordpress-ip&gt;:7121</code> and check the post created previously is
+still there. This, combined with the output of <code>velero restore describe</code>, can
+give you confidence that the backup succeeded.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>This setup mainly uses sane defaults which are provided by known Helm charts.</p>
+<p>Many things would need to be done to use this in production, such as:</p>
+<ol>
+<li>Storing the backups on an external service (e.g. AWS S3) instead of on-prem.</li>
+<li>Having custom graphs on Grafana to see at a glance metrics about WordPress.</li>
+<li>Securing public access using Traefik or another solution.</li>
+</ol>
+<p>And of course, provisioning the cluster outside of Minikube!</p>
+
+</article>
+
+
+</body>
+
+</html>

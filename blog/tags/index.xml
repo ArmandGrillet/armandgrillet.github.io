@@ -5,6 +5,61 @@
     <link>https://armand.gr/blog/tags/</link>
     <description>Recent content in Tags on Armand Grillet</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://armand.gr/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Sat, 28 Nov 2020 08:20:46 +0200</lastBuildDate><atom:link href="https://armand.gr/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>helm</title>
+      <link>https://armand.gr/blog/tags/helm/</link>
+      <pubDate>Sat, 28 Nov 2020 08:20:46 +0200</pubDate>
+      
+      <guid>https://armand.gr/blog/tags/helm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://armand.gr/blog/tags/kubernetes/</link>
+      <pubDate>Sat, 28 Nov 2020 08:20:46 +0200</pubDate>
+      
+      <guid>https://armand.gr/blog/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>minikube</title>
+      <link>https://armand.gr/blog/tags/minikube/</link>
+      <pubDate>Sat, 28 Nov 2020 08:20:46 +0200</pubDate>
+      
+      <guid>https://armand.gr/blog/tags/minikube/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>minio</title>
+      <link>https://armand.gr/blog/tags/minio/</link>
+      <pubDate>Sat, 28 Nov 2020 08:20:46 +0200</pubDate>
+      
+      <guid>https://armand.gr/blog/tags/minio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>velero</title>
+      <link>https://armand.gr/blog/tags/velero/</link>
+      <pubDate>Sat, 28 Nov 2020 08:20:46 +0200</pubDate>
+      
+      <guid>https://armand.gr/blog/tags/velero/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>wordpress</title>
+      <link>https://armand.gr/blog/tags/wordpress/</link>
+      <pubDate>Sat, 28 Nov 2020 08:20:46 +0200</pubDate>
+      
+      <guid>https://armand.gr/blog/tags/wordpress/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
