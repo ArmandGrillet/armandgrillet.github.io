@@ -185,5 +185,3 @@ end
 # Conclusion
 
 Making a video game on Pico 8 in a few hours was quite exhilirating! It is easy to start and the programming challenges faced are different compared to the ones I face at work. This article does not cover the entirety of the game, check the [code](https://www.lexaloffle.com/bbs/cart_info.php?cid=snake-1) to see how I've done things like the RIP screen or the hitboxes handling. If you have any questions, just ping me on Twitter.
-
-[@ArmandGrillet](https://twitter.com/ArmandGrillet)

@@ -6,6 +6,9 @@
     {{ if .Date }}<p class="meta"><i><time datetime="{{ .Date.Format "02.01.2006T15:04:05Z07:00" }}">{{ .Date.Format "January 2, 2006" }}</time></i></p>{{ end }}
   </header>
   {{ .Content }}
+  <div align="center">
+    <a href="..">Check my other posts</a> | <a href="https://twitter.com/ArmandGrillet" target="_blank">Ping me on Twitter</a>
+  </div>
 </article>
 
 {{ end }}

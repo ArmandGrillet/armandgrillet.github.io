@@ -50,5 +50,3 @@ This should be enough to make your website accessible via `HTTPS` and even redir
 ## Updating your SSL/TLS encryption mode
 
 Last but not least, you can change your SSL/TLS encryption mode on Cloudflare. Just go on the "SSL/TLS" tab and update it. Personally, I have it set up to `Full`.
-
-[@ArmandGrillet](https://twitter.com/ArmandGrillet)

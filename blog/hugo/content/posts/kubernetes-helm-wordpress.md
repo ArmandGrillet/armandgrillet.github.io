@@ -1,5 +1,5 @@
 ---
-title: "Deploying WordPress on Kubernetes with monitoring and backups"
+title: "Deploy WordPress on Kubernetes with monitoring and backups"
 summary: "Using Helm with sane defaults, one chart at a time."
 date: 2020-11-28T08:20:46+02:00
 tags: ["kubernetes", "helm", "wordpress", "minikube", "minio", "velero"]
@@ -256,4 +256,3 @@ Many things would need to be done to use this in production, such as:
 3. Securing public access using Traefik or another solution.
 
 And of course, provisioning the cluster outside of Minikube!
-
