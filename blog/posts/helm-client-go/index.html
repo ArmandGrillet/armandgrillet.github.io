@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Introduction to the Go Helm client | Armand Grillet</title>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="https://armand.gr/blog/img/favicon.ico">
+<meta name="generator" content="Hugo 0.80.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://armand.gr/blog/posts/helm-client-go/">
+<link rel="alternate" type="application/rss+xml" href="" title="Armand Grillet">
+<link rel="stylesheet" href="https://armand.gr/blog/css/base.css">
+<link href="https://fonts.googleapis.com/css?family=Domine" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@0;1&display=swap" rel="stylesheet">
+<header>
+  <h2><a id="title" href="https://armand.gr/blog">Armand Grillet</a></h2>
+  <nav>
+    <a href="https://twitter.com/ArmandGrillet" target="_blank">Twitter</a> | <a href="https://github.com/armandgrillet" target="_blank">GitHub</a> | <a href="https://armand.gr">armand.gr</a>
+  </nav>
+</header>
+
+<body>
+
+<article>
+  <header>
+    <h1><b>Introduction to the Go Helm client</b></h1>
+    <p class="meta"><i><time datetime="31.01.2021T10:28:46&#43;02:00">January 31, 2021</time></i></p>
+  </header>
+  <p>One nice addon when using Helm is <a href="https://github.com/marckhouzam/helm-fullstatus"><code>fullstatus</code></a>.
+This addon gives you the list of all the API resources started to run a specific
+release.</p>
+<p>Recently, I had to do something similar in Go which first required me to
+get all the Helm releases on a cluster. The documentation I found for
+this simple task was not great, I am thus writing it down here.</p>
+<h2 id="initial-setup">Initial setup</h2>
+<ul>
+<li>A Go module only containing an empty <code>main.go</code> and a <code>go.mod</code>.</li>
+<li>A local machine with a <code>kubeconfig</code> to communicate with a Kubernetes cluster.</li>
+</ul>
+<p>If your context is set, you do not need to specify a <code>kubeconfig</code>.</p>
+<h2 id="getting-releases">Getting releases</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;flag&#34;</span>
+	<span style="color:#e6db74">&#34;log&#34;</span>
+	<span style="color:#e6db74">&#34;path/filepath&#34;</span>
+
+	<span style="color:#e6db74">&#34;helm.sh/helm/v3/pkg/action&#34;</span>
+	<span style="color:#e6db74">&#34;helm.sh/helm/v3/pkg/kube&#34;</span>
+	<span style="color:#e6db74">&#34;k8s.io/client-go/util/homedir&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">kubeconfig</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">home</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">homedir</span>.<span style="color:#a6e22e">HomeDir</span>(); <span style="color:#a6e22e">home</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> {
+		<span style="color:#a6e22e">kubeconfig</span> = <span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;kubeconfig&#34;</span>, <span style="color:#a6e22e">filepath</span>.<span style="color:#a6e22e">Join</span>(<span style="color:#a6e22e">home</span>, <span style="color:#e6db74">&#34;.kube&#34;</span>, <span style="color:#e6db74">&#34;config&#34;</span>), <span style="color:#e6db74">&#34;(optional) absolute path to the kubeconfig file&#34;</span>)
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#a6e22e">kubeconfig</span> = <span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;kubeconfig&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;absolute path to the kubeconfig file&#34;</span>)
+	}
+	<span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">Parse</span>()
+
+	<span style="color:#a6e22e">actionConfig</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">action</span>.<span style="color:#a6e22e">Configuration</span>)
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">actionConfig</span>.<span style="color:#a6e22e">Init</span>(<span style="color:#a6e22e">kube</span>.<span style="color:#a6e22e">GetConfig</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">kubeconfig</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>), <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#a6e22e">releases</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">action</span>.<span style="color:#a6e22e">NewList</span>(<span style="color:#a6e22e">actionConfig</span>).<span style="color:#a6e22e">Run</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">release</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">releases</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">release</span>.<span style="color:#a6e22e">Name</span>)
+	}
+}
+</code></pre></div><p>The <code>*action.Configuration</code> can be reused to interact with Helm. As you might
+have noticed, you do not need to register any API group &amp; version to a scheme.</p>
+<h2 id="using-releases">Using releases</h2>
+<p>The <code>releases</code> include manifests which are extremely useful to understand what
+is being deployed (this is what <code>helm fullstatus</code> does). For example, you can
+easily know which releases deploy which images:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cleanLine</span> <span style="color:#66d9ef">string</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">imageLine</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">Image</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`yaml:&#34;image&#34;`</span>
+}
+<span style="color:#a6e22e">images</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">bool</span>)
+
+<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">release</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">releases</span> {
+    <span style="color:#a6e22e">scanner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bufio</span>.<span style="color:#a6e22e">NewScanner</span>(<span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">release</span>.<span style="color:#a6e22e">Manifest</span>))
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">scanner</span>.<span style="color:#a6e22e">Scan</span>() {
+        <span style="color:#a6e22e">cleanLine</span> = <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Trim</span>(<span style="color:#a6e22e">scanner</span>.<span style="color:#a6e22e">Text</span>(), <span style="color:#e6db74">&#34; &#34;</span>)
+        <span style="color:#75715e">// Could be &#39;$(params.parser-image)&#39; due to template.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">HasPrefix</span>(<span style="color:#a6e22e">cleanLine</span>, <span style="color:#e6db74">&#34;image: &#34;</span>) <span style="color:#f92672">||</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">HasPrefix</span>(<span style="color:#a6e22e">cleanLine</span>, <span style="color:#e6db74">&#34;- image: &#34;</span>)) <span style="color:#f92672">&amp;&amp;</span> !<span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#a6e22e">cleanLine</span>, <span style="color:#e6db74">&#34;$&#34;</span>) {
+            <span style="color:#a6e22e">cleanLine</span> = <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">TrimLeft</span>(<span style="color:#a6e22e">scanner</span>.<span style="color:#a6e22e">Text</span>(), <span style="color:#e6db74">&#34;- &#34;</span>)
+            <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">yaml</span>.<span style="color:#a6e22e">Unmarshal</span>([]byte(<span style="color:#a6e22e">cleanLine</span>), <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">imageLine</span>)
+            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
+            }
+            <span style="color:#75715e">// If you don&#39;t specify a tag, Kubernetes assumes you mean `latest`.
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#a6e22e">imageLine</span>.<span style="color:#a6e22e">Image</span>, <span style="color:#e6db74">&#34;:&#34;</span>) {
+                <span style="color:#a6e22e">imageLine</span>.<span style="color:#a6e22e">Image</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;:latest&#34;</span>
+            }
+            <span style="color:#a6e22e">images</span>[<span style="color:#a6e22e">imageLine</span>.<span style="color:#a6e22e">Image</span>] = <span style="color:#66d9ef">true</span>
+        }
+    }
+
+    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s : %v&#34;</span>, <span style="color:#a6e22e">release</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">images</span>)
+}
+</code></pre></div>
+  <div align="center">
+    <a href="..">Check my other posts</a> | <a href="https://twitter.com/ArmandGrillet" target="_blank">Ping me on Twitter</a>
+  </div>
+</article>
+
+
+</body>
+
+</html>
